@@ -2,11 +2,25 @@
 using namespace std;
 
 #include "Public.h"
+#include "game_list.h"
 
 int main(int argc, char **argv) {
 
 	FILE *fp;
+
+	char *game_list_file_path = "game_list.csv";
 	
+	if (AccessFile(game_list_file_path) != 0) {
+		fopen_s(&fp, game_list_file_path, "w+");
+		fclose(fp);
+	}
+	else {
+		BackUpFile(game_list_file_path);
+	}
+
+	UpdateGameList(game_list_file_path);
+	
+/*	
 	char *setup_file_name = "Setup.ini";
 	if (AccessFile(setup_file_name) != 0) {
 		cout << "Fail to Load Setup File:" << endl << setup_file_name << endl;
@@ -30,6 +44,6 @@ int main(int argc, char **argv) {
 
 
 	cout << "GameDatabase Successfully Exited!" << endl;
-
+*/
 	return 0;
 }

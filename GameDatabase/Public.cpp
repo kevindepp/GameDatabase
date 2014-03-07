@@ -5,6 +5,9 @@
 **
 ** FindUnitAfterNumber
 ** -- buffer created by 'new' but not deleted before return
+**
+** FileLineCounter
+** -- '\n' may not work at some time, consider to use 'r'
 **********************************************************/
 
 #include <iostream>
@@ -290,11 +293,36 @@ int FileCharCounter(char *file_path) {
 	FILE *fp;
 
 	fopen_s(&fp, file_path, "r");
+	while(!feof(fp)){
+		fgetc(fp);
+		num_char++;
+	}
 	fclose(fp);
 
-
-
 	return num_char;
+}
+
+int ReadFileToBuffer( char *buffer, int buffer_size, char *file_path) {
+
+	if (AccessFile(file_path) != 0) {
+		cout << endl << "Fail to Locate File:" << endl;
+		cout << file_path << endl;
+		return 0;
+	}
+
+	int i = 0;
+	FILE *fp;
+	fopen_s(&fp, file_path, "r");
+	while(!feof(fp)){
+		buffer[i] = fgetc(fp);
+		i++;
+	}
+	fclose(fp);
+
+	buffer[i - 1] = '\0';
+
+	return 0;
+
 }
 
 int FileLineCounter(char *file_path, const int start_line_num) {
@@ -316,6 +344,7 @@ int FileLineCounter(char *file_path, const int start_line_num) {
 		num_line = 0;
 		cout << "Empty File Provided:" << endl;
 		cout << file_path << endl;
+		fclose(fp);
 		return 0;
 	}
 
@@ -325,6 +354,7 @@ int FileLineCounter(char *file_path, const int start_line_num) {
 		num_line = 0;
 		cout << "Wrong File Format:" << endl;
 		cout << file_path << endl;
+		fclose(fp);
 		return 0;
 	}
 

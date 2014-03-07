@@ -17,6 +17,7 @@ int DeleteBackUpFile(char *file_path);
 int CopyDirectory(char *source_directory_path, char *destination_directory_path);
 int DeleteDirectory(char *directory_path);
 int FileCharCounter(char *file_path);
+int ReadFileToBuffer( char *buffer, int buffer_size, char *file_path);
 int FileLineCounter(char *file_path, const int start_line_num);
 int FileLineCounter(char *file_path);
 char *FilePathSplitter(char *input_file_path, char *output, int work_mode);
